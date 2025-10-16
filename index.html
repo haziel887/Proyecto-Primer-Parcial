@@ -1,19 +1,150 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Consultas Cursos</title>
-    <link rel="stylesheet" href="estilos.css">
+  <meta charset="UTF-8">
+  <title>Cursos de Computación</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2f3640;
+    }
+
+    .botones {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #0984e3;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background-color: #74b9ff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #dfe6e9;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Consultas Cursos de Computación</h1>
-        <form method="POST" action="funcionalidad.html">
-            <input type="submit" name="opcion" value="todos">
-            <input type="submit" name="opcion" value="matutino">
-            <input type="submit" name="opcion" value="despues_julio">
-            <input type="submit" name="opcion" value="cursos">
-        </form>
-    </div>
+
+  <h1>📘 Cursos de Computación</h1>
+
+  <div class="botones">
+    <button onclick="mostrarTodos()">Mostrar todos</button>
+    <button onclick="mostrarMatutinos()">Turno Matutino</button>
+    <button onclick="mostrarPosteriores()">Inscritos después del 12 de julio</button>
+    <button onclick="mostrarCursos()">Solo cursos</button>
+  </div>
+
+  <table id="tabla">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Alumno</th>
+        <th>Curso</th>
+        <th>Nivel</th>
+        <th>Turno</th>
+        <th>Costo</th>
+        <th>Fecha de Inscripción</th>
+        <th>Profesor</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    // Datos simulados
+    const cursos = [
+      {id: 1, alumno: "María López", curso: "Excel Básico", nivel: "Inicial", turno: "Matutino", costo: 500, fecha: "2025-07-05", profesor: "Carlos Pérez"},
+      {id: 2, alumno: "Juan Torres", curso: "Excel Avanzado", nivel: "Avanzado", turno: "Vespertino", costo: 700, fecha: "2025-07-14", profesor: "Lucía Ramírez"},
+      {id: 3, alumno: "Ana Hernández", curso: "Word Profesional", nivel: "Intermedio", turno: "Matutino", costo: 550, fecha: "2025-06-30", profesor: "Luis Gómez"},
+      {id: 4, alumno: "Pedro Castillo", curso: "Programación Web", nivel: "Avanzado", turno: "Nocturno", costo: 800, fecha: "2025-07-20", profesor: "María García"},
+      {id: 5, alumno: "Laura Díaz", curso: "PowerPoint", nivel: "Inicial", turno: "Matutino", costo: 450, fecha: "2025-07-25", profesor: "Andrés Ortega"},
+      {id: 6, alumno: "José Medina", curso: "Base de Datos", nivel: "Intermedio", turno: "Vespertino", costo: 600, fecha: "2025-08-02", profesor: "Rosa Martínez"},
+      {id: 7, alumno: "Sofía Ramos", curso: "Excel Intermedio", nivel: "Intermedio", turno: "Matutino", costo: 550, fecha: "2025-07-11", profesor: "Carlos Pérez"},
+      {id: 8, alumno: "Miguel García", curso: "Python Básico", nivel: "Inicial", turno: "Vespertino", costo: 650, fecha: "2025-07-19", profesor: "Lucía Ramírez"}
+    ];
+
+    const tbody = document.querySelector("#tabla tbody");
+
+    function mostrar(datos) {
+      tbody.innerHTML = "";
+      datos.forEach(r => {
+        const fila = `<tr>
+          <td>${r.id}</td>
+          <td>${r.alumno}</td>
+          <td>${r.curso}</td>
+          <td>${r.nivel}</td>
+          <td>${r.turno}</td>
+          <td>$${r.costo}</td>
+          <td>${r.fecha}</td>
+          <td>${r.profesor}</td>
+        </tr>`;
+        tbody.innerHTML += fila;
+      });
+    }
+
+    // 1. Mostrar todos
+    function mostrarTodos() {
+      mostrar(cursos);
+    }
+
+    // 2. Mostrar turno matutino
+    function mostrarMatutinos() {
+      const filtrados = cursos.filter(c => c.turno === "Matutino");
+      mostrar(filtrados);
+    }
+
+    // 3. Mostrar inscritos después del 12 de julio
+    function mostrarPosteriores() {
+      const filtrados = cursos.filter(c => new Date(c.fecha) > new Date("2025-07-12"));
+      mostrar(filtrados);
+    }
+
+    // 4. Mostrar solo los cursos
+    function mostrarCursos() {
+      tbody.innerHTML = "";
+      cursos.forEach((r, i) => {
+        const fila = `<tr><td>${i+1}</td><td colspan="7">${r.curso}</td></tr>`;
+        tbody.innerHTML += fila;
+      });
+    }
+
+    // Mostrar todos al inicio
+    mostrarTodos();
+  </script>
+
 </body>
 </html>
